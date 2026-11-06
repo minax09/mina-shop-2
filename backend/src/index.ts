@@ -1,6 +1,7 @@
-function calculateTotal(priceCents: number, quantity: number): number {
-  return priceCents * quantity;
-}
+import { app } from "./app";
 
-const total = calculateTotal(1999, 3);
-console.log(`Total: ${total} cents`);
+const PORT = Number(process.env.PORT) || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
