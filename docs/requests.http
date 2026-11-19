@@ -1,0 +1,46 @@
+### 1) Valid registration -> expect 201
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Mina",
+  "email": "Mina@Example.com",
+  "password": "StrongPass123"
+}
+
+### 2) Same email again -> expect 409 EMAIL_TAKEN
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Someone Else",
+  "email": "mina@example.com",
+  "password": "StrongPass123"
+}
+
+### 3) Invalid input -> expect 400 VALIDATION_ERROR
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "",
+  "email": "not-an-email",
+  "password": "123"
+}
+
+### 4) Broken JSON -> expect 400 INVALID_JSON
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{ "email":
+
+### 5) Mass assignment attempt -> expect 201 but role CUSTOMER
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Hacker",
+  "email": "hacker@example.com",
+  "password": "StrongPass123",
+  "role": "ADMIN"
+}
