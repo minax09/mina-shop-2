@@ -44,3 +44,40 @@ Content-Type: application/json
   "password": "StrongPass123",
   "role": "ADMIN"
 }
+
+
+### 6) Login OK (email case differs) -> expect 200 + Set-Cookie
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "MINA@example.com",
+  "password": "StrongPass123"
+}
+
+### 7) Wrong password -> expect 401 INVALID_CREDENTIALS
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "mina@example.com",
+  "password": "WrongPassword1"
+}
+
+### 8) Unknown email -> expect the SAME 401 message
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "nobody@example.com",
+  "password": "StrongPass123"
+}
+
+### 9) Invalid input -> expect 400 VALIDATION_ERROR
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "not-an-email",
+  "password": ""
+}
