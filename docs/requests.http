@@ -81,3 +81,17 @@ Content-Type: application/json
   "email": "not-an-email",
   "password": ""
 }
+
+
+### 10) Me after login -> expect 200 with user (no passwordHash)
+GET http://localhost:3000/auth/me
+
+### 11) Logout -> expect 200 + Set-Cookie that clears the token
+POST http://localhost:3000/auth/logout
+
+### 12) Me after logout -> expect 401 UNAUTHENTICATED
+GET http://localhost:3000/auth/me
+
+### 13) Forged cookie -> expect 401 UNAUTHENTICATED
+GET http://localhost:3000/auth/me
+Cookie: token=this.is.not-a-real-token

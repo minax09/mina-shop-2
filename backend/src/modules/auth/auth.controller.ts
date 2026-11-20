@@ -7,12 +7,16 @@ import { loginUser, registerUser } from "./auth.service.js";
 
 export const AUTH_COOKIE = "token";
 
-const cookieOptions = {
+const baseCookieOptions = {
   httpOnly: true,
   sameSite: "lax" as const,
   secure: env.NODE_ENV === "production",
-  maxAge: 24 * 60 * 60 * 1000,
   path: "/",
+};
+
+const cookieOptions = {
+  ...baseCookieOptions,
+  maxAge: 24 * 60 * 60 * 1000,
 };
 
 export async function register(req: Request, res: Response) {
@@ -47,4 +51,13 @@ export async function login(req: Request, res: Response) {
 
   res.cookie(AUTH_COOKIE, token, cookieOptions);
   res.json({ user });
+}
+
+export function me(req: Request, res: Response) {
+  res.json({ user: req.user });
+}
+
+export function logout(_req: Request, res: Response) {
+  res.clearCookie(AUTH_COOKIE, baseCookieOptions);
+  res.json({ message: "Logged out" });
 }
